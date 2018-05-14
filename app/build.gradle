@@ -32,6 +32,7 @@ def timberVersion = '4.7.0'
 def daggerVersion = '2.13'
 def okhttpVersion = '3.8.1'
 def robolectricVersion = '3.8'
+def picassoVersion = '2.5.2'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -78,4 +79,7 @@ dependencies {
 
     //robolectric
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
+
+    //Picasso
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
 }

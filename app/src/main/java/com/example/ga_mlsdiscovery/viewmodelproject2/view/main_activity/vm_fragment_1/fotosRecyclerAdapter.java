@@ -2,7 +2,7 @@ package com.example.ga_mlsdiscovery.viewmodelproject2.view.main_activity.vm_frag
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ga_mlsdiscovery.viewmodelproject2.R;
 import com.example.ga_mlsdiscovery.viewmodelproject2.model.Foto;
 import com.example.ga_mlsdiscovery.viewmodelproject2.view_model.ListViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,7 @@ import timber.log.Timber;
 public class fotosRecyclerAdapter extends RecyclerView.Adapter<fotosRecyclerAdapter.FotoViewHolder>{
 
     private final List<Foto> list = new ArrayList<>();
+    private Context context;
 
     public fotosRecyclerAdapter(ListViewModel viewModel, LifecycleOwner lifecycleOwner) {
         viewModel.getFotos().observe(lifecycleOwner, new Observer<List<Foto>>() {
@@ -49,6 +50,7 @@ public class fotosRecyclerAdapter extends RecyclerView.Adapter<fotosRecyclerAdap
     @NonNull
     @Override
     public FotoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        this.context = parent.getContext();
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.foto_item,
                 parent, false);
         return new FotoViewHolder(v);
@@ -95,6 +97,15 @@ public class fotosRecyclerAdapter extends RecyclerView.Adapter<fotosRecyclerAdap
         }
 
         void bind(Foto foto){
+            /*
+            Picasso is static and can be used through out your app
+            per card and created in onViewHolder method
+             */
+            Picasso.with(context)
+                    .load(foto.getThumbnailUrl())
+                    .resize(70, 70)
+                    .placeholder(R.drawable.stay_the_path)
+                    .into(thumbnail);
             this.foto = foto;
             titleText.setText(foto.getTitle());
             urlText.setText(foto.getUrl());
